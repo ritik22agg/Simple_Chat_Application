@@ -11,6 +11,10 @@ let users = {
 
 }
 
+let socketMap = {
+
+}
+
 io.on('connection', (socket)=>{
 	console.log('connected with socket id = ', socket.id)
 	socket.on('login', (data)=>{
@@ -19,6 +23,7 @@ io.on('connection', (socket)=>{
 			if(users[data.username] == data.password){
 				socket.join(data.username)
 				socket.emit('logged_in')
+				socketMap[socket.id] = data.username
 			}else{
 				socket.emit('login_failed')
 			}
@@ -27,6 +32,7 @@ io.on('connection', (socket)=>{
 			users[data.username] = data.password
 			socket.join(data.username)
 			socket.emit('logged_in')
+			socketMap[socket.id] = data.username
 		}
 		
 	})
@@ -34,7 +40,7 @@ io.on('connection', (socket)=>{
 	socket.on('msg_send', (data)=>{
 		console.log(data.to)
 		console.log(data.msg)
-
+		data.from = socketMap[socket.id]
 		if(data.to){
 			io.to(data.to).emit('msg_rcvd', data)
 		}else{

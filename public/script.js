@@ -26,10 +26,11 @@ $('#btnSendMsg').click(()=>{
 })
 
 socket.on('msg_rcvd', (data)=>{
+	console.log(data.from)
 	console.log(data.to)
 	console.log(data.msg)
 
-	$('#ulMsgs').append($('<li>').text(data.msg))
+	$('#ulMsgs').append($('<li>').text(`${data.from} : ${data.msg}`))
 })
 
 socket.on('login_failed', ()=>{
