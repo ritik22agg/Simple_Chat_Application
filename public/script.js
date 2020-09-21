@@ -14,11 +14,13 @@ $('#btnStart').click(()=>{
 socket.on('logged_in', ()=>{
 	$('#chatBox').show()
 	$('#loginBox').hide()
+	$('#user').text($('#inputUsername').val()) 
 	window.alert('login successful')
 })
 
 $('#btnSendMsg').click(()=>{
 	console.log("working")
+	//$('#ulMsgs').append($('<li>').text(`You : ${$('#inpNewMsg').val()}`))
 	socket.emit('msg_send', {
 		to: $('#inpToUser').val(),
 		msg: $('#inpNewMsg').val()
