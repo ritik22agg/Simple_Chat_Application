@@ -6,7 +6,8 @@ $('#chatBox').hide()
 $('#btnStart').click(()=>{
 	console.log("working")
 	socket.emit('login', {
-		username : $('#inputUsername').val()
+		username : $('#inputUsername').val(),
+		password : $('#inpPass').val()
 	})
 })
 
@@ -30,3 +31,9 @@ socket.on('msg_rcvd', (data)=>{
 
 	$('#ulMsgs').append($('<li>').text(data.msg))
 })
+
+socket.on('login_failed', ()=>{
+	window.alert('login failed retry')
+	$('#loginBox').show()
+	$('#chatBox').hide()
+});
